@@ -106,8 +106,6 @@ This project runs automated tests in GitHub Actions on every push and pull reque
 Tests execute in parallel across **Chromium** and **WebKit** with sharding.  
 Each run uploads HTML reports and (optionally) traces/screenshots as artifacts.
 
-![Playwright CI](https://github.com/lozal/playwright-ts-data-driven-pom/actions/workflows/playwright-ci.yml/badge.svg)
-
 👉 See the full workflow file here:  
 [.github/workflows/playwright-ci.yml](.github/workflows/playwright-ci.yml)
 
