@@ -1,0 +1,58 @@
+[
+  {
+    "id": "TC001",
+    "app": "Web Application",
+    "task": "Implement user authentication",
+    "column": "To Do",
+    "tags": [
+      "Feature",
+      "High Priority"
+    ]
+  },
+  {
+    "id": "TC002",
+    "app": "Web Application",
+    "task": "Fix navigation bug",
+    "column": "To Do",
+    "tags": [
+      "Bug"
+    ]
+  },
+  {
+    "id": "TC003",
+    "app": "Web Application",
+    "task": "Design system updates",
+    "column": "In Progress",
+    "tags": [
+      "Design"
+    ]
+  },
+  {
+    "id": "TC004",
+    "app": "Mobile Application",
+    "task": "Push notification system",
+    "column": "To Do",
+    "tags": [
+      "Feature"
+    ]
+  },
+  {
+    "id": "TC005",
+    "app": "Mobile Application",
+    "task": "Offline mode",
+    "column": "In Progress",
+    "tags": [
+      "Feature",
+      "High Priority"
+    ]
+  },
+  {
+    "id": "TC006",
+    "app": "Mobile Application",
+    "task": "App icon design",
+    "column": "Done",
+    "tags": [
+      "Design"
+    ]
+  }
+]
