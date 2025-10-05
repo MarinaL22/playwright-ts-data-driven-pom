@@ -1,0 +1,74 @@
+name: Playwright CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    # 2 browsers x 3 shards = 6 parallel jobs
+    name: ${{ matrix.project }} shard ${{ matrix.shard }}/3
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [ chromium, webkit ]   # use Playwright project names from config
+        shard: [ 1, 2, 3 ]
+
+    env:
+      CI: true
+      PLAYWRIGHT_BROWSERS_PATH: ~/.cache/ms-playwright
+      SHARD_TOTAL: 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Show tool versions
+        run: |
+          node -v
+          npx playwright --version
+
+      - name: Run Playwright tests (${{ matrix.project }}, shard ${{ matrix.shard }}/${{ env.SHARD_TOTAL }})
+        run: |
+          npx playwright test \
+            --project=${{ matrix.project }} \
+            --shard=${{ matrix.shard }}/${{ env.SHARD_TOTAL }} \
+            --reporter=html
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ matrix.project }}-shard-${{ matrix.shard }}
+          path: playwright-report
+          retention-days: 7
+
+      - name: Upload Playwright test-results (traces/screenshots)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.project }}-shard-${{ matrix.shard }}
+          path: test-results
+          if-no-files-found: ignore
+          retention-days: 7
